@@ -15,12 +15,17 @@ html,body{
     background-color:aqua;
     position:relative;
     overflow:hidden;
+    margin:200px auto;
 }
 .doodler{
     height:100px;
-    width:50px;
-    background-color: red;
+    width:100px;
+     /* background-color: red;  */
     position:absolute;
+    background-image: url("./images/pngegg.png");
+    background-size:cover;
+    background-position:center;
+    /* overflow:hidden */
     /* transition: bottom 0.3s ease-in-out ; */
 }
 .platform{
@@ -28,4 +33,16 @@ html,body{
     height:20px;
     background-color: green;
     position: absolute;
+}
+.score{
+    font-size: 2rem;
+    position: absolute;
+    width:100%;
+    text-align:center;
+    bottom:50%;
+}
+.score::after{
+    display:block;
+    content: "Restart to play again";
+    font-size:1rem;
 }

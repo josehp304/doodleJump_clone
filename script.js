@@ -1,5 +1,5 @@
 const grid = document.querySelector(".grid");
-const doodler = document.createElement("div");
+let doodler;
 let doodleLeft = 100;
 let doodleBottom = 200;
 let startGame = true;
@@ -7,9 +7,13 @@ let platforms = [];
 let lose = false;
 let lastTime = 0;
 let jumpCheck = false;
+let count = 0;
+
 function createDoodle() {
+  doodler = document.createElement("div");
   grid.appendChild(doodler);
   doodler.classList.add("doodler");
+
   doodler.style.left = doodleLeft + "px";
   doodler.style.bottom = doodleBottom + "px";
 }
@@ -38,6 +42,7 @@ function createPlatform(n) {
 function updatePlatform() {
   platforms.forEach((platform) => {
     if (platform.bottom < 1) {
+      count++;
       platform.bottom = 600;
       const visual = platform.visual;
       platform.left = Math.random() * 320;
@@ -61,8 +66,27 @@ function updateDoodler(time) {
       gravity(delta);
     }
 
-    window.requestAnimationFrame(updateDoodler);
+    startAnime = window.requestAnimationFrame(updateDoodler);
+  } else {
+    handleLose();
   }
+}
+function handleLose() {
+  grid.removeChild(doodler);
+  platforms.forEach((platform) => {
+    const visual = platform.visual;
+    grid.removeChild(visual);
+  });
+  document.removeEventListener("keydown", (e) => ctrl(e));
+  cancelAnimationFrame(startAnime);
+  const score = document.createElement("div");
+  score.textContent = "your score is " + count;
+  score.classList.add("score");
+  grid.appendChild(score);
+
+  // doodler = null;
+  lose = false;
+  // start();
 }
 function movePlatforms() {
   if (doodleBottom > 300) {
@@ -74,15 +98,16 @@ function movePlatforms() {
   }
 }
 function doodlerCtrl() {
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "ArrowLeft") {
-      doodleLeft -= 10;
-      doodler.style.left = doodleLeft + "px";
-    } else if (e.key === "ArrowRight") {
-      doodleLeft += 10;
-      doodler.style.left = doodleLeft + "px";
-    }
-  });
+  document.addEventListener("keydown", (e) => ctrl(e));
+}
+function ctrl(e) {
+  if (e.key === "ArrowLeft") {
+    doodleLeft -= 10;
+    doodler.style.left = doodleLeft + "px";
+  } else if (e.key === "ArrowRight") {
+    doodleLeft += 10;
+    doodler.style.left = doodleLeft + "px";
+  }
 }
 function jump(delta) {
   doodleBottom += 1 * 0.3 * delta;
@@ -122,15 +147,13 @@ function checkContact() {
     }
   });
 }
-
+let startAnime;
 function start() {
-  if (startGame) {
-    doodlerCtrl();
-    window.requestAnimationFrame(updateDoodler);
-    createPlatform(5);
-    doodleLeft = platforms[0].left;
-    createDoodle();
-  }
+  createDoodle();
+  doodlerCtrl();
+  startAnime = window.requestAnimationFrame(updateDoodler);
+  createPlatform(5);
+  doodleLeft = platforms[0].left;
 }
 
 start();
