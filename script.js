@@ -1,4 +1,5 @@
 const grid = document.querySelector(".grid");
+const scoreNav = document.querySelector(".score-nav");
 let doodler;
 let doodleLeft = 100;
 let doodleBottom = 200;
@@ -43,6 +44,7 @@ function updatePlatform() {
   platforms.forEach((platform) => {
     if (platform.bottom < 1) {
       count++;
+      scoreNav.innerHTML = count;
       platform.bottom = 600;
       const visual = platform.visual;
       platform.left = Math.random() * 320;
@@ -101,10 +103,10 @@ function doodlerCtrl() {
   document.addEventListener("keydown", (e) => ctrl(e));
 }
 function ctrl(e) {
-  if (e.key === "ArrowLeft") {
+  if (e.key === "ArrowLeft" || e.key === "a") {
     doodleLeft -= 10;
     doodler.style.left = doodleLeft + "px";
-  } else if (e.key === "ArrowRight") {
+  } else if (e.key === "ArrowRight" || e.key === "d") {
     doodleLeft += 10;
     doodler.style.left = doodleLeft + "px";
   }
@@ -149,11 +151,11 @@ function checkContact() {
 }
 let startAnime;
 function start() {
-  createDoodle();
   doodlerCtrl();
   startAnime = window.requestAnimationFrame(updateDoodler);
   createPlatform(5);
   doodleLeft = platforms[0].left;
+  createDoodle();
 }
 
 start();

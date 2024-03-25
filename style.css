@@ -25,6 +25,7 @@ html,body{
     background-image: url("./images/pngegg.png");
     background-size:cover;
     background-position:center;
+    transition: left 0.1s ease-in-out;
     /* overflow:hidden */
     /* transition: bottom 0.3s ease-in-out ; */
 }
@@ -43,6 +44,12 @@ html,body{
 }
 .score::after{
     display:block;
-    content: "Restart to play again";
+    content: "Refresh to play again";
     font-size:1rem;
+}
+.score-nav{
+    font-size: 1rem;
+    position:absolute;
+    left:90%;
+    bottom:90%;
 }
