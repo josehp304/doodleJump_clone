@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const scoreNav = document.querySelector(".score-nav");
   let doodler;
   let doodleLeft = 100;
-  let doodleBottom = 200;
+  let doodleBottom = 300;
   let startGame = true;
   let platforms = [];
   let lose = false;
